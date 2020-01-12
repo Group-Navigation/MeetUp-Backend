@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const {Groups} = require("../Database");
 const {Users} = require("../Database");
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
 function isEmpty(obj) {
   for (var key in obj) {

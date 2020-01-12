@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const geoLocation = require('../Api/geocode');
-const axios = require('axios');
 const {getUserRoute, getUserETA} = require('../Api');
 
 router.post('/', async (req,res) =>{ //returns the route to destionation for all user

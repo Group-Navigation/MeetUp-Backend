@@ -5,8 +5,6 @@ const router2 = express.Router();
 const Joi = require("joi");
 const { Groups } = require("../Database");
 const { Users } = require("../Database");
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 
 function validateUser(user) {
   const schema = {
