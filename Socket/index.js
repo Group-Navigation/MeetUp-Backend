@@ -1,5 +1,4 @@
 const groupHandler = require('../App');
-const api = require('../Api');
 
 module.exports = (io) => {
 
