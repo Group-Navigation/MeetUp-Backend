@@ -1,8 +1,3 @@
-// const Groups = require("../Database/Models/Groups");
-// const Users = require("../Database/Models/Users");
-// const Invitations = require('../Database/Models/Invitations');
-// const Messages = require('../Database/Models/Messages');
-
 const {Groups,Users,Invitations,Messages} = require("../Database");
 
 const groups = require('./groups');

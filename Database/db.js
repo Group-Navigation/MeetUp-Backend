@@ -1,23 +1,26 @@
-const Sequelize = require("sequelize");
-const databaseName = "d589sf39oj64i6";
+const MongoClient = require('mongodb').MongoClient;
 
-console.log("Opening database connection");
+var database; 
+//creating connection to the database with user:admin and pass:root
+const uri = "mongodb+srv://admin:root@database-ofryg.mongodb.net/test?retryWrites=true&w=majority";
 
-const db = new Sequelize(
-  databaseName,
-  "irnrjpqtmpzzxw",
-  "5e321b861965722297b3adf2b0d9b75a486359361f01a66dc0593e019b2e7523",
-  {
-    host: "ec2-54-243-44-102.compute-1.amazonaws.com",
-    dialect: "postgres",
-    dialectOptions: {
-      ssl: true
-    },
-    define: {
-      timestamps: false
-    },
-    logging: false
+const connect = async (callback) => {
+  try{
+      MongoClient.connect(uri, (err,client) =>{
+        database = client.db("users");  //used to store a reference to a singluar database instance so that
+        console.log("database is running!");
+        return callback(err); //multiple connections are no longer needed for crud operations
+      })
   }
-);
+  catch(err)
+  {
+      console.log(err);
+  }
+}
 
-module.exports = db;
+const get = () => {return database;}
+
+const disconnect = () => {database.close();
+
+}
+module.exports = {connect,get,disconnect};
