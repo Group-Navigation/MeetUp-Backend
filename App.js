@@ -17,13 +17,15 @@ const apiRouter = require("./Router");
 const bodyParser = require("body-parser");
 const cors = require('cors');
  
-const mongoConnection = require("./Database/db");
-mongoConnection.connect( () =>{
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors()); // <---- use cors middleware
+app.use("/api", apiRouter);
 
-      app.use(bodyParser.json());
-      app.use(bodyParser.urlencoded({ extended: false }));
+const mongoose = require('mongoose');
+const uri = "mongodb+srv://admin:root@database-ofryg.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true }).
+then(() => console.log("Database is online")).
+catch(err => console.log("ERROR:", err.stack));
 
-      app.use(cors()); // <---- use cors middleware
-      app.use("/api", apiRouter);
-      //console.log(mongoConnection.get()) //works!
-})
+
