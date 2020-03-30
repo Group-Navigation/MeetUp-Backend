@@ -1,4 +1,4 @@
-const {Groups,Users,Invitations,Messages} = require("../Associate");
+const {Group,User,Invitation,Message} = require("..").models;
 
 const groups = require('./groups');
 const users = require('./users');
@@ -17,7 +17,7 @@ function getRandomInt(x) {
 const populateUserTable = async (users) => {
   for (let i = 0; i < users.length; i++) {
     let current = users[i];
-    let builtUser = await Users.create(current);
+    let builtUser = await User.create(current);
     builtUsersArr.push(builtUser);
   }
 }
@@ -25,7 +25,7 @@ const populateUserTable = async (users) => {
 const populateGroupTable = async (groups) => {
   for (let i = 0; i < groups.length; i++) {
     let current = groups[i];
-    let builtGroup = await Groups.create(current);
+    let builtGroup = await Group.create(current);
     builtGroupArr.push(builtGroup);
   }
 }
@@ -34,7 +34,7 @@ const populateMessageTable = async(messages) =>{
   for(let i = 0; i< messages.length; i++)
   {
     let current = messages[i];
-    let builtMessage = await Messages.create(current);
+    let builtMessage = await Message.create(current);
     builtMessageArr.push(builtMessage);
   }
 }
@@ -43,7 +43,7 @@ const populateInvitationTable = async(invitations) =>{
   for(let i = 0; i< invitations.length; i++)
   {
     let current = invitations[i];
-    let builtInvitation = await Invitations.create(current);
+    let builtInvitation = await Invitation.create(current);
     builtInvitationArr.push(builtInvitation);
   }
 }

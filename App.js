@@ -1,26 +1,16 @@
 const {ApolloServer} = require('apollo-server-express');
-const PORT = process.env.PORT || 4000;
 const app = require("express")();
-const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 4000;
 
-const {db:database} = require('./Database/Associate');
+const database = require('./Database').database;
+const db = require('./Database').models;
 const seed = require("./Database/Data/Seed");
 
 const typeDefs = require("./Apollo/Schema");
 const resolvers = require("./Apollo/Resolver");
-const {createDB} = require('./Database/Create');
 const Database = require("./Apollo/Datasources/Database");
-const db = createDB();
-const cors = require('cors');
-
-const http = require('http');
-const server = http.Server(app);
-const io = require('socket.io')(server);
 
 const apollo = new ApolloServer({
-    // context: ()=>{
-
-    // },
     typeDefs,
     resolvers,
     dataSources: () => ({   //Parenthesis very important!
@@ -28,19 +18,30 @@ const apollo = new ApolloServer({
     })
 });
 
+const cors = require('cors');
+const bodyParser = require("body-parser");
+
+const http = require('http');
+const server = http.Server(app);
+const io = require('socket.io')(server);
+
 const groupH = require('./Socket/GroupHandler');
 const groupHandler = new groupH;
 module.exports = groupHandler;
 
 database.sync({force:true}).then(async() =>{
 //we put all necessary code in here so that database can finish syncing before we start the
-//server & sockets
+//server & sockets & perform async functions
+
+    //repopulate database
     await seed();
 
+    //Apply Middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cors());
     
+    //combine apollo with express
     apollo.applyMiddleware({app});
     
     server.listen(PORT);
