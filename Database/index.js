@@ -8,8 +8,8 @@ const Message = require("./Models/Messages");
 Group.belongsToMany(User, {through: 'GroupUser'});
 User.belongsToMany(Group, {through: 'GroupUser'});
 
-Invitation.belongsTo(User);
-User.hasMany(Invitation);
+Invitation.belongsToMany(User, {through: 'InvitationUser'});
+User.belongsToMany(Invitation, {through: 'InvitationUser'});
 
 Message.belongsTo(Group);
 Group.hasMany(Message);

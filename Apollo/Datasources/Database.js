@@ -9,28 +9,67 @@ class Database extends DataSource{
         this.Invitation = db.Invitation;
     }
 
-    async createUser({email, password, displayName, profilePic=null}) {
-        let user = this.User.create({email,password,displayName,profilePic});
-        await user.addUser(1);
-        return true;
-    }
-
-    async deleteUser({id}) {
-        await this.User.destroy({
-            where: {Id: id}
-        });
-        
-        return true;
-    }
-
     async allUsers() {
-        let users = await this.User.findAll();
-        return users;
+            let users = await this.User.findAll();
+            return users;
     }
 
-    async findUser({id}) {
+    async findUser(id) {
         let user = await this.User.findByPk(id);
         return user;
+    }
+
+    async findGroup(id,type=false){
+        if(!type){
+            let group = await this.Group.findByPk(id);
+            return group;
+        }
+        else
+        {
+            let groupUsers = await this.Group.findAll({
+                where: {id: id},
+                attributes: ['name', 'long', 'lat'],
+                include: [{
+                    model: this.User,
+                    attributes: ['displayName', 'long', 'lat']
+                }]
+            });
+            return groupUsers;
+        }
+    }
+
+    async deleteGroup(id){
+        let res = await this.Group.destroy({
+            where: {id : id}
+        });
+        console.log(res);
+        return res;
+    }
+
+    async addToGroup(userId,groupId){
+        let group = await this.Group.findByPk(groupId);
+        let user = await this.User.findByPk(userId);
+
+        await group.addUser(user);
+        return group != null && user != null;
+    }
+
+    async removeFromUser(invId,userId){
+        let inv = await this.Invitation.findByPk(invId);
+        let user = await this.User.findByPk(userId);
+
+        await inv.removeUser(user);
+        return inv!= null && user != null;
+    }
+
+    async createGroup(name, latitude, longitude){
+        let group = await this.Group.create({name,lat:latitude,long:longitude});
+        return group != null;
+    }
+
+    async createInvitation(sender,group){
+        let inv = await this.Invitation.create({sender,group});
+        return inv != null;
     }
 }
 

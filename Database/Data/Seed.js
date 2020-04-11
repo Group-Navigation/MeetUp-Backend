@@ -51,7 +51,7 @@ const populateInvitationTable = async(invitations) =>{
 const associateUserTable = async () => {
   for (let i = 0; i < builtUsersArr.length; i++) {
     let current = builtUsersArr[i];
-    await current.addGroups(getRandomInt(2)); //set primary key
+    await current.addGroups(2); //set primary key
   }
 }
 

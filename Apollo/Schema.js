@@ -7,8 +7,8 @@ const typeDefs = gql`
         email: String!
         password: String! #temporary
         profilePic: String
-        longitude: Int! #temporaries
-        latitude: Int!
+        longitude: Float! #temporaries
+        latitude: Float!
         archive: [Group]
         contacts: [User]
         groups: [Group]
@@ -16,10 +16,10 @@ const typeDefs = gql`
     }
 
     type Group{
-        name: String
+        name: String!
         time: Int #
-        longitude: Int! #temporaries
-        latitude: Int!
+        longitude: Float! #temporaries
+        latitude: Float!
     }
 
     type Message{
@@ -34,6 +34,11 @@ const typeDefs = gql`
         group: Group!
     }
 
+    type Path{
+        path: [[Float]]!
+        eta: String!
+    }
+
     enum Status{
         ACTIVE
         INACTIVE
@@ -41,18 +46,19 @@ const typeDefs = gql`
     }
 
     type Query{
-        users: [User]!
+        users: [User!]
         user(id: ID!): User
+        group(id: ID!): Group
+        pathsOfGroup(id: ID!): [Path]!
     }
 
     type Mutation{
-        createUser(
-            email: String!, 
-            password: String!, 
-            displayName: String!, 
-            profilePic: String): Response
-
-        deleteUser(id: ID!): Response
+        addGroup(name: String!, latitude: Float!, longitude: Float!):Boolean
+        deleteGroup(id: ID!):Boolean
+        addToGroup(userId: ID!, groupId: ID!):Boolean    #adds a specific user to a specific group
+        
+        addInvitation(sender: String!, group: String!):Boolean   
+        removeFromUser(invId: ID!, userId: ID!):Boolean   #deletes a specific invitation from a specific user
     }
 
     enum Response{

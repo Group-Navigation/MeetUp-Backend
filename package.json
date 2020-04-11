@@ -5,6 +5,7 @@
   "main": "App.js",
   "dependencies": {
     "@google/maps": "^1.1.0",
+    "apollo-datasource-rest": "^0.8.1",
     "apollo-server": "^2.11.0",
     "apollo-server-express": "^2.11.0",
     "axios": "^0.19.2",

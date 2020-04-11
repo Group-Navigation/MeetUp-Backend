@@ -9,12 +9,14 @@ const seed = require("./Database/Data/Seed");
 const typeDefs = require("./Apollo/Schema");
 const resolvers = require("./Apollo/Resolver");
 const Database = require("./Apollo/Datasources/Database");
+const GoogleAPI = require("./Apollo/Datasources/Google");
 
 const apollo = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => ({   //Parenthesis very important!
-        Database: new Database(db)
+        Database: new Database(db),
+        Google: new GoogleAPI()
     })
 });
 
