@@ -61,11 +61,6 @@ const typeDefs = gql`
         removeFromUser(invId: ID!, userId: ID!):Boolean   #deletes a specific invitation from a specific user
     }
 
-    enum Response{
-        SUCCESS
-        ERROR
-    }
-
 `
 
 module.exports = typeDefs;
