@@ -21,8 +21,10 @@ class Database extends DataSource{
 
     async findGroup(id,type=false){
         if(!type){
-            let group = await this.Group.findByPk(id);
-            return group;
+            let response = await this.Group.findByPk(id);
+            let {name, long,lat} = response.dataValues;
+            let groupObject = {name, longitude:long, latitude:lat, id};
+            return groupObject;
         }
         else
         {
@@ -31,7 +33,7 @@ class Database extends DataSource{
                 attributes: ['name', 'long', 'lat'],
                 include: [{
                     model: this.User,
-                    attributes: ['displayName', 'long', 'lat']
+                    attributes: ['displayName', 'long', 'lat','profilePic', 'id']
                 }]
             });
             return groupUsers;

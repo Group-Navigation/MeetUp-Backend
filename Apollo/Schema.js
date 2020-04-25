@@ -4,10 +4,10 @@ const typeDefs = gql`
     type User{
         id: ID!
         displayName: String!
-        email: String!
-        password: String! #temporary
-        profilePic: String
-        longitude: Float! #temporaries
+        email: String
+        password: String
+        profilePic: String!
+        longitude: Float! 
         latitude: Float!
         archive: [Group]
         contacts: [User]
@@ -37,6 +37,7 @@ const typeDefs = gql`
     type Path{
         path: [[Float]]!
         eta: String!
+        user: User!
     }
 
     enum Status{

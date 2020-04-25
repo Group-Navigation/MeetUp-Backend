@@ -10,7 +10,7 @@ module.exports = {
             return dataSources.Database.findGroup(id);
         },
         pathsOfGroup: async(_,{id},{dataSources})=>{
-            let data = dataSources.Database.findGroup(id,true);
+            let data = await dataSources.Database.findGroup(id,true);
             let group = data[0].dataValues;
             let users = data[0].Users;
             let paths = [];
@@ -28,6 +28,9 @@ module.exports = {
                     }
                 }
                 let response = await dataSources.Google.getRouteAndETA(apiParams);
+                let {displayName, long, lat, profilePic, id} = users[i].dataValues;
+                let userObject = {displayName, longitude:long, latitude: lat, profilePic, id};
+                response.user = userObject;
                 paths.push(response);
             }
             return paths;
