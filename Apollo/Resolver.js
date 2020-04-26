@@ -47,8 +47,9 @@ module.exports = {
         removeFromUser:(_,{invId,userId},{dataSources})=>{
             return dataSources.Database.removeFromUser(invId,userId);
         },
-        addGroup:(_,{name, latitude,longitude},{dataSources})=>{
-            return dataSources.Database.createGroup(name,latitude,longitude);
+        createGroup: async(_,{name, address, userIds},{dataSources})=>{
+            let coords = await dataSources.Google.getLocationByAddress(address);
+            return dataSources.Database.createGroup(name,coords.lat,coords.lng,userIds);
         },
         addInvitation:(_,{sender,group},{dataSources})=>{
             return dataSources.Database.createInvitation(sender,group);

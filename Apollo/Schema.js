@@ -20,6 +20,7 @@ const typeDefs = gql`
         time: Int #
         longitude: Float! #temporaries
         latitude: Float!
+        users: [User]!
     }
 
     type Message{
@@ -32,6 +33,7 @@ const typeDefs = gql`
     type Invitation{
         sender: User!
         group: Group!
+        recievers: [User]!
     }
 
     type Path{
@@ -54,7 +56,7 @@ const typeDefs = gql`
     }
 
     type Mutation{
-        addGroup(name: String!, latitude: Float!, longitude: Float!):Boolean
+        createGroup(name: String!, address: String!, userIds: [ID]!):Boolean
         deleteGroup(id: ID!):Boolean
         addToGroup(userId: ID!, groupId: ID!):Boolean    #adds a specific user to a specific group
         

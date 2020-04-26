@@ -64,8 +64,14 @@ class Database extends DataSource{
         return inv!= null && user != null;
     }
 
-    async createGroup(name, latitude, longitude){
-        let group = await this.Group.create({name,lat:latitude,long:longitude});
+    async createGroup(name, lat, long, userIds){
+        let group = await this.Group.create({name,lat,long});
+
+        for(let i = 0; i < userIds.length; i++)
+        {
+            let user = await this.User.findByPk(userIds[i]);
+            await group.addUser(user);
+        }
         return group != null;
     }
 
