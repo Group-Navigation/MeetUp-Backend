@@ -11,8 +11,8 @@ const typeDefs = gql`
         latitude: Float!
         archive: [Group]
         contacts: [User]
-        groups: [Group]
-        invitations: [Invitation]
+        groups: [Group]     #how does graphql know how to find the groups?
+        invitations: [Invitation]   #how does graphql know how to resolve many to many relationships in general?
     }
 
     type Group{
